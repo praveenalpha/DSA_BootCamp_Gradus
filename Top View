@@ -1,0 +1,29 @@
+void width_of_bt(Node* root, int hl, pair<int, int>& width){
+      if(root == nullptr) return;
+      width.first = min(width.first, hl);
+      width.second = max(width.second, hl);
+      width_of_bt(root->left, hl-1, width);
+      width_of_bt(root->right, hl+1, width);
+  }
+  vector<int> topView(Node *root)
+  {
+      pair<int, int> width={0,0};
+      // min max
+      width_of_bt(root, 0, width);
+      vector<int> ans(width.second + abs(width.first) + 1, -1);
+      queue<pair<Node*, int>> q;
+      q.push({root, abs(width.first)});
+      while(!q.empty()){
+          int size = q.size();
+          while(size--){
+              pair<Node*, int> rnode = q.front();
+              q.pop();
+              if(ans[rnode.second] == -1){
+                  ans[rnode.second] = rnode.first->data;
+              }
+              if(rnode.first->left != nullptr)    q.push({rnode.first->left, rnode.second-1});
+              if(rnode.first->right != nullptr)   q.push({rnode.first->right, rnode.second+1});
+          }
+      }
+      return ans;
+  }
