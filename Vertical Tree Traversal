@@ -1,0 +1,29 @@
+void find_width(Node* root, pair<int, int>& l_r, int level){
+      if(root == nullptr) return;
+      l_r.first = min(l_r.first, level);
+      l_r.second = max(l_r.second, level);
+      find_width(root->left, l_r, level - 1);
+      find_width(root->right, l_r, level + 1);
+  }
+  vector<vector<int>> verticalOrder(Node *root) {
+      // code here
+      pair<int, int> l_r;
+      find_width(root, l_r, 0);
+      int width = l_r.second - l_r.first + 1;
+      
+      vector<vector<int>> ans(width, vector<int> ());
+      queue<pair<Node*, int>> q;
+      q.push({root, abs(l_r.first)});
+      while(q.size() > 0){
+          int size = q.size();
+          while(size--){
+              pair<Node*, int> rnode = q.front();
+              q.pop();
+              ans[rnode.second].push_back(rnode.first->data);
+              if(rnode.first->left != nullptr)    q.push({rnode.first->left, rnode.second-1});
+              if(rnode.first->right != nullptr)    q.push({rnode.first->right, rnode.second+1});
+          }
+      }
+      
+      return ans;
+  }
