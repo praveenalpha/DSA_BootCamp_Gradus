@@ -1,0 +1,15 @@
+vector<int> diagonal(Node *root) {
+      queue<Node*> q;
+      vector<int> ans;
+      q.push(root);
+      while(q.size()){
+          Node* r_node = q.front();
+          q.pop();
+          while(r_node){  // traverse each nodes in same diagonal
+              ans.push_back(r_node->data);
+              if(r_node->left)    q.push(r_node->left);
+              r_node = r_node->right;
+          }
+      }
+      return ans;
+  }
