@@ -1,0 +1,24 @@
+
+class Solution {
+public:
+    int ans;
+    int node_to_leaf_max_path(Node* root){
+        if(root->left == nullptr && root->right == nullptr) return root->data;
+        
+        int la = root->left ? node_to_leaf_max_path(root->left) : 0;
+        int ra = root->right ? node_to_leaf_max_path(root->right) : 0;
+        
+        if(root->left == nullptr)   return root->data + ra;
+        if(root->right == nullptr)  return root->data + la;
+        ans = max(ans, root->data + la + ra);
+        return max(la, ra) + root->data;
+    }
+    int maxPathSum(Node* root)
+    {
+        ans = INT_MIN;
+        int res = node_to_leaf_max_path(root);
+        if(root->left == nullptr || root->right == nullptr) return max(ans,res);
+        return ans;
+    }
+};
+
