@@ -1,0 +1,22 @@
+class Solution {
+public:
+    void solve(TreeNode* root, string &ssf, int& ans){
+        if(root == nullptr) return;
+        if(root -> left == nullptr && root -> right == nullptr){
+            ssf += to_string(root->val);
+            ans += stoi(ssf);
+            ssf.pop_back();
+            return;
+        }
+        ssf += to_string(root->val);
+        solve(root->left, ssf, ans);
+        solve(root->right, ssf, ans);
+        ssf.pop_back();
+    }
+    int sumNumbers(TreeNode* root) {
+        int ans = 0;
+        string s = "";
+        solve(root, s , ans);
+        return ans;
+    }
+};
