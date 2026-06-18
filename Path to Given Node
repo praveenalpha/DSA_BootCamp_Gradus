@@ -1,0 +1,18 @@
+bool findPath(TreeNode* root, int B, vector<int>& path) {
+    if (!root) return false;
+    
+    path.push_back(root->val);
+    
+    if (root->val == B) return true;
+    
+    if (findPath(root->left, B, path) || findPath(root->right, B, path))
+        return true;
+    
+    path.pop_back();
+    return false;
+}
+vector<int> Solution::solve(TreeNode* A, int B) {
+    vector<int> path;
+    findPath(A, B, path);
+    return path;
+}
