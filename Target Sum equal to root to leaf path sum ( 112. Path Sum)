@@ -1,0 +1,14 @@
+bool solve(TreeNode* root, int x, int ssf){
+      if(root == nullptr) return false;
+      if(root->left == nullptr && root->right == nullptr){
+          ssf += root->val;
+          return x == ssf;
+      } 
+      ssf += root->val;
+      bool la = solve(root->left, x, ssf);
+      bool ra = solve(root->right, x, ssf);
+      return la || ra;
+  }
+  bool hasPathSum(TreeNode* root, int targetSum) {
+      return solve(root, targetSum, 0);
+  }
