@@ -1,0 +1,33 @@
+
+    void k_down(TreeNode* root, TreeNode* block_node, int k, vector<int>& ans){
+        if(root == nullptr || root == block_node || k < 0)  return;
+        if(k == 0){
+            ans.push_back(root->val);
+            return;
+        }
+        k_down(root->left, block_node, k-1, ans);
+        k_down(root->right, block_node, k-1, ans);
+    }
+    int distance_k(TreeNode* r1, TreeNode* r2, int k, vector<int>& ans){
+        if(r1 == nullptr || k < 0)  return -1;
+        if(r1->val == r2->val){
+            k_down(r1, nullptr, k, ans);
+            return 1;
+        }
+        int la = distance_k(r1->left, r2, k, ans);
+        if(la != -1){
+            k_down(r1, r1->left, k - la, ans);
+            return la + 1;
+        }
+        int ra = distance_k(r1->right, r2, k, ans);
+        if(ra != -1){
+            k_down(r1, r1->right, k - ra, ans);
+            return ra + 1;
+        }
+        return -1;
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        vector<int> ans;
+        distance_k(root, target, k, ans);
+        return ans;
+    }
