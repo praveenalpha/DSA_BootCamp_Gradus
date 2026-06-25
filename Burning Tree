@@ -1,0 +1,44 @@
+int height(Node* root, Node* bn){
+        if(root == nullptr || bn == root) return -1;
+        
+        return max(height(root->left, bn), height(root->right, bn)) + 1;
+    }
+    
+    vector<Node*> root_to_node_path(Node* root, int t){
+        if(root == nullptr){
+            vector<Node*> ans;
+            return ans;
+        }
+        
+        if(root->data == t){
+            vector<Node*> ans;
+            ans.push_back(root);
+            return ans;
+        }
+        
+        vector<Node*> ans = root_to_node_path(root->left, t);
+        if(ans.size() > 0){
+            ans.push_back(root);
+            return ans;
+        }
+        
+        ans = root_to_node_path(root->right, t);
+        if(ans.size() > 0){
+            ans.push_back(root);
+            return ans;
+        }
+        return ans;
+    }
+    int minTime(Node* root, int target) {
+        // code here
+        vector<Node*> path = root_to_node_path(root, target);
+        int ans = 0, curr = 0;
+        Node* bn = nullptr;
+        for(Node* node : path){
+            int deapth = height(node, bn);
+            ans = max(ans, deapth + curr);
+            curr++;
+            bn = node;
+        }
+        return ans;
+    }
