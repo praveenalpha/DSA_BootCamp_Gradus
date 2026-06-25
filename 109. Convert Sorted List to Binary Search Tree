@@ -1,0 +1,40 @@
+ListNode* getMidM1(ListNode* head){
+        if(head == nullptr){
+            return nullptr;
+        }
+        if(head -> next == nullptr)
+            return head;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast -> next -> next != nullptr && fast -> next ->next->next){
+            slow = slow->next;
+            fast = fast ->next->next;
+        }
+        return slow;
+    }
+    TreeNode* sortedListToBST(ListNode* head) {
+        ListNode* midm1 = getMidM1(head);
+        //cout<<midm1->val;
+        ListNode* mid ;
+        if(midm1 == nullptr)
+            mid = nullptr;
+        else if(midm1->next == nullptr)
+            mid = midm1;
+        else
+            mid = midm1->next;
+        //cout<<mid->val;
+        TreeNode* root;
+        if(mid == nullptr)
+            root = nullptr;
+        else{
+            root = new TreeNode(mid->val);
+            midm1 -> next = nullptr;
+            if(mid == midm1){
+                return root;
+            }
+            root -> left = sortedListToBST(head);
+            root -> right = sortedListToBST(mid->next);
+        }
+        return root;
+        // return nullptr;
+    }
